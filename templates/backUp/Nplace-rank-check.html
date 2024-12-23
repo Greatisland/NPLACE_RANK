@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            width: calc(100% - 25px);
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #FFCD12;
+            color: black;
+            padding: 8px 16px;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+        .header h2 {
+            margin: 0;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 8px;
+            background-color: #333;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .header a:hover {
+            background-color: #555;
+        }
+        .form-container {
+            width: 95%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 18px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .form-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .form-container th, .form-container td {
+            padding: 10px;
+            text-align: left;
+        }
+        .form-container input[type="text"] {
+            width: 30%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input[type="submit"] {
+            width: 15%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .results-table-container {
+            margin-top: 20px;
+            margin: 0 auto;
+        }
+        .results-table-container h2 {
+            text-align: center;
+            color: black;
+        }
+        .results-table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .results-table-container th, .results-table-container td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .results-table-container th {
+            background-color: #FFCD12;
+            color: black;
+        }
+        .results-table-container tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .results-table-container button {
+            background-color: #FFCD12;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .results-table-container button:hover {
+            background-color: #ffd700;
+        }
+        .results-table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        .results-table th, .results-table td {
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .truncate {
+            max-width: 15%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size : 14px;
+        }
+        .help-popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .help-popup p {
+            margin: 0 0 10px 0;
+        }
+        .help-popup button {
+            background-color: #FFCD12;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .help-popup button:hover {
+            background-color: #444;
+        }
+        .help-button {
+            margin-left: 2px;
+            padding: 5px 7px;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            color: white;
+            cursor: pointer;
+        }
+        .help-button:hover {
+            background-color: #444;
+        }
+
+        .table-tr-header {
+            width : 10%;
+        }
+
+        /* 모바일 환경을 위한 스타일 */
+        @media (max-width: 768px) {
+            body {
+            }
+
+            .sidebar {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 0;
+                background-color: #333;
+                overflow: hidden;
+                transition: height 0.3s ease;
+            }
+
+            .sidebar a {
+                text-align: center;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header {
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 10px;
+            }
+
+            .header h2 {
+                font-size: 16px;
+            }
+
+            .menu-btn {
+                display: block;
+                background-color: #333;
+                color: white;
+                padding: 6px 8px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .menu-btn:hover {
+                background-color: #444;
+            }
+
+            .close-btn {
+                display: block;
+                background-color: #333;
+                color: white;
+                padding: 8px 15px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .close-btn:hover {
+                background-color: #444;
+            }
+
+            /* 모바일 메뉴 버튼은 모바일에서만 보여줌 */
+            .menu-btn {
+                text-align : left;
+                display: block;
+            }
+
+            /* form-container 스타일 수정 */
+            .form-container {
+                width: 90%;
+            }
+
+            .form-container input[type="text"]{
+                width: 70%;
+                margin: 5px 0;
+            }
+
+            .form-container input[type="submit"] {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            /* results-table-container 테이블 디자인 */
+            .results-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .results-table tr {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .results-table td {
+                width: 20%; /* 한 줄에 5개씩 표시 */
+                font-size: 10px;
+                padding: 8px 0;
+            }
+
+            .results-table-container table {
+                width: 100%;
+            }
+            
+            .results-table-container th {
+                font-size: 11px;
+            }
+
+            .table-tr-header {
+                width : 15%;
+            }
+        }
+
+        /* PC 환경에서는 메뉴 버튼 숨김 */
+        @media (min-width: 769px) {
+            .menu-btn {
+                display: none;
+            }
+
+            .close-btn {
+                display: none;
+            }
+        }
+
+        /* 메뉴 활성화 시 사이드바 스타일 */
+        .sidebar.active {
+            height: 32vh;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            disableRunNowButton(); // 페이지 로드 시 시간 확인
+            openHelpPopup();
+        };
+
+        function openHelpPopup() {
+            var popup = document.getElementById('helpPopup');
+            popup.style.display = 'block';
+        }
+
+        function closeHelpPopup() {
+            var popup = document.getElementById('helpPopup');
+            popup.style.display = 'none';
+        }
+
+        function editKeyword(keywordId) {
+            var keywordCell = document.getElementById('keyword-' + keywordId);
+            keywordCell.style.display = 'none';
+        }
+
+        function deleteKeyword(keywordId) {
+            document.getElementById('delete_keyword_id').value = keywordId;
+            document.getElementById('delete_keyword_form').submit();
+        }
+
+         // 오후 2시부터 5시 사이에 '즉시 실행' 버튼 비활성화
+        function disableRunNowButton() {
+            const now = new Date();
+            const hour = now.getHours();
+            const runButtons = document.querySelectorAll('.run-now-btn');
+
+            if (hour >= 14 && hour < 17) {
+                runButtons.forEach(button => {
+                    button.disabled = true;
+                    button.innerText = '비활성화 (2시~5시)';
+                });
+            } else {
+                runButtons.forEach(button => {
+                    button.disabled = false;
+                    button.innerText = '즉시 실행';
+                });
+            }
+        }
+
+
+        function runNow(keywordId, placeId) {
+            alert('선택한 키워드의 순위 검색을 즉시 실행합니다.');
+            const runButton = document.getElementById(`run-btn-${keywordId}`);
+            runButton.disabled = true;
+            runButton.innerText = '실행 중...';  // 상태 변경
+
+            fetch('/run-now', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    keyword_id: keywordId,
+                    place_id: placeId,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('즉시 실행이 완료되었습니다.');
+        
+                    // 특정 키워드의 결과를 동적으로 업데이트
+                    const resultCell = document.querySelector(`#result-${keywordId}`);
+                    const currentDate = new Date().toLocaleDateString('ko-KR', {
+                        month: '2-digit', day: '2-digit'
+                    });
+                    resultCell.innerHTML = `<strong>${data.result}</strong><br>${currentDate}`;
+                    // 1초 후 새로고침
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                alert(data.message);
+                runButton.disabled = false;
+                runButton.innerText = '즉시 실행';  // 실패 시 다시 버튼 활성화
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            runButton.disabled = false;
+            runButton.innerText = '즉시 실행';  // 에러 발생 시 다시 버튼 활성화
+        });
+    }
+
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+    }
+
+    function closeSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        sidebar.classList.remove("active");
+    }
+    </script>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <a href="/home">메인 화면</a>
+        <a href="/public-check">N 플레이스 순위 체크 (1회)</a>
+        <a href="/Nplace-rank-check">N 플레이스 키워드별 순위 체크</a>
+        <a href="#">문의하기</a>
+        <button class="close-btn" onclick="closeSidebar()">✕ 닫기</button>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+            <h2>네이버 플레이스 키워드 순위</h2>
+            <button class="help-button" onclick="openHelpPopup()">?</button>
+            <div>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+            
+        </div>
+
+        <div class="form-container">
+            <form method="post">
+                <table class="input_container">
+                    <tr>
+                        <td>
+                            <laber for ="username">어서오세요, {{ username }}님! </label> <br><br>
+                            <label for="place_id">플레이스 ID : </label> {{ user_info[4] if user_info else '' }}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <label for="vip_date">VIP 멤버쉽 : </label> <label style="font-weight:bold;"> {{ user_info[5] if user_info else '' }} </label> 까지
+                        </td>
+                    </tr>
+                    {% if error %}
+                        <p style="color:red">{{ error }}</p>
+                    {% endif %}
+
+                    {% if user_info %}
+                    <tr>
+                        <td>
+                            <label for="new_keyword">키워드 : <input type="text" name="new_keyword" id="new_keyword" required></label>
+                            
+                            <input type="submit" name="add_keyword" value="Add Keyword">
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </form>
+        </div>
+
+        {% if keywords %}
+            <div class="results-table-container">
+                <h2>네이버 키워드별 순위 결과</h2>
+                
+                    {% for keyword in keywords %}
+                <table>    
+                    <tr>
+                        <th class="table-tr-header">키워드</th>
+                        <td>
+                            <span id="keyword-{{ keyword.keyword }}" class="truncate" style="font-weight:bold;">{{ keyword.keyword }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-tr-header">순위</th>
+                        <td id="result-{{ keyword.keyword }}">
+                            <table class="results-table">
+                                {% for row in range(3) %}
+                                <tr>
+                                    {% for col in range(10) %}
+                                    <td >
+                                        {% if row * 8 + col < keyword.results|length %}
+                                        
+                                            {% set result = keyword.results[row * 8 + col] %}
+                                            {{ result.search_date.strftime('%m-%d') }}<br>
+                                            <strong>{{ result.result }}</strong>
+                                        
+                                        {% endif %}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-tr-header" >동작</th>
+                        <td>
+                            <button id="run-btn-{{ keyword.keyword }}" class="run-now-btn" type="button" onclick="runNow('{{ keyword.keyword }}', '{{ user_info[4] if user_info else '' }}')">재실행</button>
+                            <button type="button" onclick="deleteKeyword('{{ keyword.keyword }}')">삭제</button>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                    {% endfor %}
+                
+            </div>
+        {% endif %}
+
+        <form id="edit_keyword_form" method="post" style="display:none;">
+            <input type="hidden" id="edit_keyword_id" name="keyword_id">
+            <input type="hidden" id="edit_keyword_input" name="new_keyword">
+            <input type="hidden" name="edit_keyword" value="true">
+        </form>
+
+        <form id="delete_keyword_form" method="post" style="display:none;">
+            <input type="hidden" id="delete_keyword_id" name="keyword_id">
+            <input type="hidden" name="delete_keyword" value="true">
+        </form>
+    </div>
+
+    <!-- 도움말 팝업 -->
+    <div id="helpPopup" class="help-popup">
+        <h3>도움말</h3>
+        <p>이 페이지에서 네이버 플레이스 키워드별 순위를 확인할 수 있습니다.</p>
+        <p>1. "키워드 입력"에 원하는 키워드를 입력하고 "Add Keyword" 버튼을 클릭하세요.</p>
+        <p>2. 추가된 키워드는 테이블에 표시되며, "즉시 실행" 버튼을 눌러 순위를 확인할 수 있습니다.</p>
+        <p>3. 키워드를 삭제하려면 "삭제" 버튼을 클릭하세요.</p>
+        <button onclick="closeHelpPopup()">닫기</button>
+    </div>
+</body>
+</html>

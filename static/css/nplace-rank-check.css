@@ -1,0 +1,435 @@
+/* Nplace-rank-check 페이지 전용 스타일 */
+
+/* CSS 변수로 색상 및 폰트 설정 */
+:root {
+  --primary-color: #FFCD12;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --font-family: 'Roboto', sans-serif;
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+  --max-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  margin: 0;
+  padding: 0;
+}
+
+.rank-check {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.form-container {
+  width: 100%;
+  background-color: white;
+  padding: 24px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.form-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-header h2 {
+  color: var(--primary-color);
+  font-size: 24px;
+  margin: 0;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-group label {
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.info-group .highlight {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  /* flex-direction: column; */
+}
+
+.input-group input[type="text"] {
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.input-group input[type="text"]:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 205, 18, 0.25);
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+
+.submit-btn:hover {
+  background-color: #e6b800;
+  transform: translateY(-2px);
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+  color: var(--danger-color);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.results-table-container {
+    margin-top: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.results-table-container h2 {
+    padding: 1rem;
+    margin: 0;
+    color: #333;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee;
+}
+
+/* 키워드별 결과 카드 스타일 */
+.results-table-container > table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0.5rem;
+}
+
+/* 테이블 헤더 스타일 */
+.table-tr-header {
+    background-color: #fff5de;
+    color: #666;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    width: 80px;
+    font-size: 0.9rem;
+}
+
+/* 순위 결과 테이블 스타일 */
+.results-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px;
+    background: #f8f9fa;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.truncate {
+    padding: 0 0 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.results-table td {
+    background: white;
+    border-radius: 6px;
+    margin: 0 0 4px 0;
+    padding: 6px 4px;
+    text-align: center;
+    width: 10%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 날짜 텍스트 스타일 */
+.results-table td span {
+    color: #888;
+    font-size: 0.7rem;
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* 순위 텍스트 스타일 */
+.results-table strong {
+    display: block;
+    font-size: 0.8rem;
+    color: #333;
+}
+
+/* 순위별 색상 */
+.rank-1 {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+.rank-error {
+    color: var(--danger-color) !important;
+    font-size: 0.7rem !important;
+}
+
+/* 버튼 스타일 */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    padding-left: 10px;
+}
+
+.run-now-btn, .delete-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 초소형 모바일 화면 대응 (300~400px) */
+@media (max-width: 400px) {
+    .results-table-container {
+        margin: 0.5rem -0.5rem;
+    }
+
+    .results-table-container h2 {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+
+    /* 테이블 헤더 조정 */
+    .table-tr-header {
+        width: 60px;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    /* 키워드 텍스트 */
+    .truncate {
+        font-size: 0.9rem;
+    }
+
+    /* 순위 결과 테이블 재구성 */
+    .results-table {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 4px;
+    }
+
+    .results-table tr {
+        display: contents;
+    }
+
+    .results-table td {
+        flex: 0 0 calc(20% - 2px);
+        aspect-ratio: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2px;
+    }
+
+    /* 날짜 텍스트 */
+    .results-table td span {
+        font-size: 0.65rem;
+        margin-bottom: 1px;
+    }
+
+    /* 순위 텍스트 */
+    .results-table strong {
+        font-size: 0.75rem;
+    }
+
+    .rank-error {
+        font-size: 0.6rem !important;
+        line-height: 1.2;
+    }
+
+    /* 버튼 그룹 조정 */
+    .action-buttons {
+        /* flex-direction: column; */
+        gap: 4px;
+        padding: 0.5rem;
+    }
+
+    .run-now-btn, .delete-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+
+    .run-now-btn i, .delete-btn i {
+        font-size: 0.8rem;
+    }
+}
+
+.help-popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.help-popup p {
+    margin: 0 0 10px 0;
+}
+
+.help-popup button {
+    background-color: #FFCD12;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.help-popup button:hover {
+    background-color: #444;
+}
+
+.help-button {
+    margin-left: 2px;
+    padding: 5px 7px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+}
+
+.help-button:hover {
+    background-color: #444;
+}
+
+.table-tr-header {
+    width: 10%;
+}
+
+/* 모바일 환경을 위한 스타일 */
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block;
+        background-color: #333;
+        color: white;
+        padding: 6px 8px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .menu-btn:hover {
+        background-color: #444;
+    }
+
+    .close-btn {
+        display: block;
+        background-color: #333;
+        color: white;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .close-btn:hover {
+        background-color: #444;
+    }
+
+    /* form-container 스타일 수정 */
+    .form-container input[type="text"]{
+        width: 70%;
+        margin: 5px 0;
+    }
+
+    .form-container input[type="submit"] {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    /* results-table-container 테이블 디자인 */
+    .results-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .results-table tr {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .results-table td {
+        width: calc(20% - 4px);
+        font-size: 10px;
+        padding: 8px 0;
+    }
+
+    .results-table-container table {
+        width: 100%;
+    }
+    
+    .results-table-container th {
+        font-size: 11px;
+    }
+
+    .table-tr-header {
+        width: 15%;
+    }
+}

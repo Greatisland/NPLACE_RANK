@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}N 플레이스 순위 체커{% endblock %}</title>
+    <!-- 외부 CSS 파일 링크 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Font Awesome 아이콘 라이브러리 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts에서 Noto Sans KR 폰트 가져오기 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- 사이드바 포함 -->
+    {% include 'components/sidebar.html' %}
+
+    <!-- 오버레이 -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="content">
+        <header class="header">
+            <button class="header__menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+            <h2 class="header__title">{% block header_title %}N 플레이스 순위 체커{% endblock %}</h2>
+            {% if session['user_id'] %}
+            <a class="header__login-btn" href="/logout">로그아웃</a>
+            {% else %}
+            <a class="header__login-btn" href="/login">로그인</a>
+            {% endif %}
+        </header>
+
+        <!-- 페이지별 콘텐츠 삽입 -->
+        {% block content %}
+        {% endblock %}
+
+        <!-- 스크롤 최상단 버튼 -->
+        <button class="scroll-to-top" id="scrollToTopBtn"><i class="fas fa-arrow-up"></i></button>
+
+    </div>
+
+  <!--  JS 링크 -->
+  <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+
+</body>
+</html>

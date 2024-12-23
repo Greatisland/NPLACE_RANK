@@ -1,0 +1,84 @@
+<style>
+    /* 사이드바 스타일링 */
+  .sidebar {
+    width: 300px;
+    background-color: #FFCD12;
+    color: #333;
+    position: fixed;
+    height: 100%;
+    padding-top: 60px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    z-index: 1001;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar__link {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 5px;
+    margin: 5px 15px;
+    background-color: #FFCD12;
+  }
+
+  .sidebar__link:hover {
+    background-color: #e0b800;
+    color: #fff;
+  }
+
+  /* 오버레이 스타일링 */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* 반응형 스타일링 */
+  @media (max-width: 768px) {
+    /* 사이드바 조정 */
+    .sidebar {
+        width: 80%;
+    }
+  }
+
+  /* 활성 상태 시 사이드바 링크 스타일 */
+  .sidebar__link--active {
+    background-color: #e0b800;
+    color: #fff;
+  }
+</style>
+<div class="sidebar" id="sidebar">
+  <a href="/home" class="sidebar__link {% if request.endpoint == 'home' %}sidebar__link--active{% endif %}">
+    <i class="fas fa-home"></i> 메인 화면
+  </a>
+  <a href="/public-check" class="sidebar__link {% if request.endpoint == 'search' %}sidebar__link--active{% endif %}">
+      <i class="fas fa-search"></i> N 플레이스 순위 체크 (1회)
+  </a>
+  <a href="/Nplace-rank-check" class="sidebar__link {% if request.endpoint == 'Nplace_rank_check' %}sidebar__link--active{% endif %}">
+      <i class="fas fa-chart-line"></i> N 플레이스 키워드별 순위 체크
+  </a>
+  <a href="#" class="sidebar__link {% if request.endpoint == 'contact' %}sidebar__link--active{% endif %}">
+      <i class="fas fa-envelope"></i> 문의하기
+  </a>
+</div>

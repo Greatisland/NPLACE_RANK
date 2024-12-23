@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/public-check.css') }}">
+{% endblock %}
+
+{% block header_title %}순위 체크{% endblock %}
+
+{% block content %}
+<main>
+    <!-- overlay (검색 시 노출) -->
+    <div class="loadingOverlay" id="loadingOverlay">
+        <div class="overlay-content">
+          <div class="loader"></div>
+          <p>검색중입니다...</p>
+        </div>
+    </div>
+    <!-- 검색 폼 -->
+    <div class="card form-container">
+        <form method="post" id="searchForm">
+            <label for="place_id">플레이스 ID
+                <input type="text" name="place_id" id="place_id" required placeholder="플레이스 ID를 입력하세요">
+            </label>
+
+            <label for="keyword">검색할 키워드
+                <input type="text" name="keyword" id="keyword" required placeholder="키워드를 입력하세요">
+            </label>
+
+            <button type="submit"><i class="fas fa-search"></i> 검색</button>
+        </form>
+    </div>
+
+    {% if error %}
+    <p style="color:red; text-align:center;">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+    <!-- 검색 결과 -->
+    <div class="card results-table-container">
+        <h3>검색 결과</h3>
+        <div class="results-card">
+            <div class="result-item">
+                <div class="business">{{ result[1] }}</div>
+                <div class="keyword-rank">
+                    <div class="keyword">{{ result[4] }}</div>
+                    <div class="rank"><i class="fas fa-crown"></i> {{ result[0] }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 순위 리스트 테이블 -->
+    <div class="card rank-table-container">
+        <h3>키워드의 업체별 순위 리스트</h3>
+        <table>
+            <tbody>
+                {% for rank in result[2] %}
+                <tr>
+                    <td 
+                        class="rank-number" 
+                        style="{% if result[3][loop.index0] == result[1] %}font-size: 1.35rem; background: #fff3cd; color : #FF0000; font-weight : bold;{% endif %}">
+                        {{ rank }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</main>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function() {
+        // 폼 제출 시 오버레이 표시
+        document.getElementById('loadingOverlay').style.display = 'flex';
+    });
+</script>
+{% endblock %}

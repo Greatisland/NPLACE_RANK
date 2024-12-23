@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}메인 화면 - N 플레이스 순위 체커{% endblock %}
+
+{% block content %}
+<main class="home-content">
+    <h1 class="home-content__title">N 플레이스 순위 체커에 오신 것을 환영합니다!</h1>
+    <p class="home-content__paragraph">시작하려면 아래 단계를 따라주세요</p>
+    <ol class="home-content__list home-content__list--ordered">
+        <li>'N 플레이스 순위 체크' 페이지로 이동합니다.</li>
+        <li>체크하고 싶은 장소 ID와 키워드를 입력합니다.</li>
+        <li>'검색' 버튼을 클릭하여 순위를 확인합니다.</li>
+    </ol>
+    <p class="home-content__paragraph"><strong>참고</strong></p>
+    <ul class="home-content__list home-content__list--unordered">
+        <li>24시간마다 한 번의 검색만 가능합니다.</li>
+        <li>정확한 결과를 위해 올바른 장소 ID와 키워드를 입력하세요.</li>
+    </ul>
+    <p class="home-content__paragraph">저희 서비스를 이용해 주셔서 감사합니다. 질문이나 도움이 필요하시면 '문의하기' 페이지를 통해 연락해 주세요.</p>
+    <p class="home-content__paragraph">즐거운 시간 되세요!</p>
+</main>
+{% endblock %}

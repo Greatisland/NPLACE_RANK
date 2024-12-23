@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}N 플레이스 순위 체커{% endblock %}</title>
+    <!-- Font Awesome 아이콘 라이브러리 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts에서 Noto Sans KR 폰트 가져오기 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+<main class="login">
+    <div class="login__container">
+        <h2 class="login__title">N 플레이스 순위 체커</h2>
+        {% if error %}
+            <div class="login__error">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+        <form method="post" class="login__form">
+            <div class="login__form-group">
+                <input type="text" name="username" id="username" class="login__form-input" required placeholder="아이디를 입력하세요">
+            </div>
+            <div class="login__form-group">
+                <input type="password" name="password" id="password" class="login__form-input" required placeholder="비밀번호를 입력하세요">
+            </div>
+            <button type="submit" class="login__submit-btn">로그인</button>
+        </form>
+        <div class="login__signup">
+            <p>아직 계정이 없으신가요? <a href="#" class="login__signup-link">회원가입</a></p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

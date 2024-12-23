@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 기본 스타일 (PC 환경) */
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease;
+        }
+
+        .header {
+            background-color: #FFCD12;
+            color: black;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .login-btn {
+            background-color: #333;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .header .login-btn:hover {
+            background-color: #444;
+        }
+
+        .home-content {
+            font-size: 18px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .results-table-container h2 {
+            text-align: center;
+            color: black;
+        }
+
+        .results-table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .results-table-container th, .results-table-container td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-table-container th {
+            background-color: #FFCD12;
+            color: black;
+        }
+
+        .results-table-container tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .results-table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .results-table th, .results-table td {
+            padding: 5px;
+            text-align: center;
+            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .truncate {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 모바일 환경을 위한 스타일 */
+        @media (max-width: 768px) {
+            body {
+                display: block;
+            }
+
+            .sidebar {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 0;
+                background-color: #333;
+                overflow: hidden;
+                transition: height 0.3s ease;
+            }
+
+            .sidebar a {
+                text-align: center;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header {
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 10px;
+            }
+
+            .header h2 {
+                font-size: 16px;
+            }
+
+            .menu-btn {
+                display: block;
+                background-color: #333;
+                color: white;
+                padding: 6px 8px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .menu-btn:hover {
+                background-color: #444;
+            }
+
+            .close-btn {
+                display: block;
+                background-color: #333;
+                color: white;
+                padding: 8px 15px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .close-btn:hover {
+                background-color: #444;
+            }
+
+            /* 모바일 메뉴 버튼은 모바일에서만 보여줌 */
+            .menu-btn {
+                text-align : left;
+                display: block;
+            }
+
+            /* 날짜별 결과를 1줄에 5개씩 출력 */
+            .results-table tr {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .results-table td {
+                width: 20%; /* 1줄에 5개가 나오도록 설정 */
+                font-size: 12px;
+            }
+        }
+
+        /* PC 환경에서는 메뉴 버튼 숨김 */
+        @media (min-width: 769px) {
+            .menu-btn {
+                display: none;
+            }
+
+            .close-btn {
+                display: none;
+            }
+        }
+
+        /* 메뉴 활성화 시 사이드바 스타일 */
+        .sidebar.active {
+            height: 100vh;
+        }
+    </style>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
+        function closeSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("active");
+        }
+    </script>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <a href="/home">메인 화면</a>
+        <a href="/public-check">N 플레이스 순위 체크 (1회)</a>
+        <a href="/Nplace-rank-check">N 플레이스 키워드별 순위 체크</a>
+        <a href="#">문의하기</a>
+        <button class="close-btn" onclick="closeSidebar()">✕ 닫기</button>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+            <h2>메인 화면</h2>
+            {% if session['user_id'] %}
+                <a class="login-btn" href="/logout">Logout</a>
+            {% else %}
+                <a class="login-btn" href="/login">Login</a>
+            {% endif %}
+        </div>
+
+        <div class="home-content">
+            <p>Welcome to our N Place Rank Checker!</p>
+            <p>To get started, follow the steps below:</p>
+            <ol>
+                <li>Navigate to the 'N Place Rank Check' page.</li>
+                <li>Enter the Place ID and Keyword you want to check the rank for.</li>
+                <li>Click the 'Search' button to see the ranking.</li>
+            </ol>
+            <p>Note:</p>
+            <ul>
+                <li>You can only perform one search every 24 hours.</li>
+                <li>Ensure you have the correct Place ID and Keyword for accurate results.</li>
+            </ul>
+            <p>Thank you for using our service. If you have any questions or need assistance, feel free to contact us through the 'Contact Us' page.</p>
+            <p>Enjoy your stay!</p>
+        </div>
+    </div>
+
+</body>
+</html>

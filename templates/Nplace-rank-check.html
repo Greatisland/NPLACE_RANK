@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nplace-rank-check.css') }}">
+{% endblock %}
+
+{% block header_title %}키워드별 순위 체크{% endblock %}
+
+{% block content %}
+<section class="rank-check">
+    <div class="form-container">
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <div class="form-content">
+                <div class="info-group">
+                    <label for="username" style="font-weight: bold; font-size: 1.1rem; margin-bottom: 20px;">어서오세요, {{ username }}님!</label>
+                    <label for="place_id">플레이스 ID <span class="highlight">{{ user_info[4] if user_info else '' }}</span></label>
+                </div>
+                <div class="info-group">
+                    <label for="vip_date">VIP 멤버쉽 <span class="highlight">{{ user_info[5] if user_info else '' }}</span> 까지</label>
+                </div>
+                {% if user_info %}
+                <div class="input-group">
+                    <input type="text" name="new_keyword" id="new_keyword" required placeholder="새 키워드를 입력하세요">
+                    <button type="submit" class="submit-btn"><i class="fas fa-plus"></i></button>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    {% if keywords %}
+        <div class="results-table-container">
+            <h2>네이버 키워드별 순위 결과</h2>
+            
+            {% for keyword in keywords %}
+            <table>    
+                <tr>
+                    <th class="table-tr-header">키워드</th>
+                    <td>
+                        <span id="keyword-{{ keyword.keyword }}" class="truncate">{{ keyword.keyword }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-tr-header">순위</th>
+                    <td id="result-{{ keyword.keyword }}">
+                        <table class="results-table">
+                            {% for row in range(3) %}
+                            <tr>
+                                {% for col in range(10) %}
+                                <td>
+                                    {% if row * 10 + col < keyword.results|length %}
+                                        {% set result = keyword.results[row * 10 + col] %}
+                                        <span>{{ result.search_date.strftime('%m-%d') }}</span>
+                                        <strong class="{% if result.result == '1위' %}rank-1{% elif '오류' in result.result %}rank-error{% endif %}">
+                                            {{ result.result }}
+                                        </strong>
+                                    {% endif %}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-tr-header">동작</th>
+                    <td>
+                        <div class="action-buttons">
+                            <button id="run-btn-{{ keyword.keyword }}" class="run-now-btn" type="button" 
+                                    onclick="runNow('{{ keyword.keyword }}', '{{ user_info[4] if user_info else '' }}')">
+                                <i class="fas fa-sync-alt"></i> 재실행
+                            </button>
+                            <button type="button" class="delete-btn" onclick="deleteKeyword('{{ keyword.keyword }}')">
+                                <i class="fas fa-trash-alt"></i> 삭제
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            {% endfor %}
+        
+        </div>
+    {% endif %}
+
+    <form id="edit_keyword_form" method="post" style="display:none;">
+        <input type="hidden" id="edit_keyword_id" name="keyword_id">
+        <input type="hidden" id="edit_keyword_input" name="new_keyword">
+        <input type="hidden" name="edit_keyword" value="true">
+    </form>
+
+    <form id="delete_keyword_form" method="post" style="display:none;">
+        <input type="hidden" id="delete_keyword_id" name="keyword_id">
+        <input type="hidden" name="delete_keyword" value="true">
+    </form>
+</section>
+<!-- 도움말 팝업 -->
+<div id="helpPopup" class="help-popup">
+    <h3>도움말</h3>
+    <p>이 페이지에서 네이버 플레이스 키워드별 순위를 확인할 수 있습니다.</p>
+    <ol>
+        <li>"키워드 입력"에 원하는 키워드를 입력하고 "추가" 버튼을 클릭하세요.</li>
+        <li>추가된 키워드는 테이블에 표시되며, "재실행" 버튼을 눌러 순위를 확인할 수 있습니다.</li>
+        <li>키워드를 삭제하려면 "삭제" 버튼을 클릭하세요.</li>
+    </ol>
+    <button onclick="closeHelpPopup()">닫기</button>
+</div>
+{% endblock %}
