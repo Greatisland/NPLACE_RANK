@@ -43,6 +43,7 @@ conn = mysql.connector.connect(
         user='test',
         password='tpals0430',
         database='nplace_rank_db'
+        ssl_disabled=True
 )
 
 # MySQL 데이터베이스 연결 내용 함수화
@@ -54,6 +55,7 @@ def get_db_connection():
         user='test',
         password='tpals0430',
         database='nplace_rank_db'
+        ssl_disabled=True
     )
 
 ############## APScheduler 함수 실행 부 (지정 시간마다 자동 실행)
