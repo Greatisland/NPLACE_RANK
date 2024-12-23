@@ -44,7 +44,6 @@ conn = mysql.connector.connect(
         password='tpals0430',
         database='nplace_rank_db',
         ssl_disabled=True,
-        ssl_mode='DISABLED'
 )
 
 # MySQL 데이터베이스 연결 내용 함수화
@@ -56,7 +55,6 @@ def get_db_connection():
         user='test',
         password='tpals0430',
         database='nplace_rank_db',
-        ssl_mode='DISABLED',
         ssl_disabled=True
     )
 
